@@ -7,73 +7,87 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
+  <ion-slides #slides>
+        <ion-slide>
+            <img [src]="apiUrl + session.image" />
 
-  <ion-card>
-    <img [src]="apiUrl + session.image" />
-    <ion-card-header>
-      <ion-card-subtitle>
-        <ion-icon color="secondary" [name]="{
-        'break': 'cafe-outline',
-        '⚡️ Quickie': 'flash-outline',
-        '📣 Conference': 'megaphone-outline',
-        '💻 Codelab': 'flask-outline',
-        '📣 Keynote': 'mic-outline'
-      }[session.type] || 'easel-outline'"></ion-icon>
-      </ion-card-subtitle>
-      <ion-card-title> {{session.titleMobile}} </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      {{session.title}}
-    </ion-card-content>
-  </ion-card>
+                <ion-icon color="secondary" [name]="{
+            'break': 'cafe-outline',
+            '⚡️ Quickie': 'flash-outline',
+            '📣 Conference': 'megaphone-outline',
+            '💻 Codelab': 'flask-outline',
+            '📣 Keynote': 'mic-outline'
+          }[session.type] || 'easel-outline'"></ion-icon>
+          {{session.titleMobile}}
+              <p>{{session.title}}</p>
+              <ng-container *ngIf="session.speakers && projectedSpeakers">
+                <ion-list>
+                  <ion-list-header>
+                    <ion-label>
+                      Présentateur
+                    </ion-label>
+                  </ion-list-header>
+                  <ion-item *ngFor="let speaker of projectedSpeakers">
+                    <ion-avatar slot="start">
+                      <img [src]="apiUrl + speaker.photoUrl">
+                    </ion-avatar>
+                    <ion-label>
+                      <h3>
+                        {{ speaker.name }}
+                      </h3>
+                      <p>
+                        {{ speaker.company }}
+                      </p>
+                      <p>
+                        {{ speaker.shortBio }}
+                      </p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ng-container>
 
-  <div *ngIf="session.speakers && projectedSpeakers">
-    <ion-list>
-      <ion-list-header>
-        <ion-label>
-          Présentateur
-        </ion-label>
-      </ion-list-header>
-      <ion-item *ngFor="let speaker of projectedSpeakers">
-        <ion-avatar slot="start">
-          <img [src]="apiUrl + speaker.photoUrl">
-        </ion-avatar>
-        <ion-label>
-          <h3>
-            {{ speaker.name }}
-          </h3>
-          <p>
-            {{ speaker.company }}
-          </p>
-          <p>
-            {{ speaker.shortBio }}
-          </p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+              <!-- Skeleton screen -->
+              <ng-container *ngIf="session.speakers && !projectedSpeakers">
+                <ion-list>
+                  <ion-list-header>
+                    <ion-label>
+                      Présentateur
+                    </ion-label>
+                  </ion-list-header>
+                  <ion-item *ngFor="let speakerId of session.speakers">
+                    <ion-avatar slot="start">
+                      <ion-skeleton-text animated></ion-skeleton-text>
+                    </ion-avatar>
+                    <ion-label>
+                      <h3>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                      </h3>
+                      <p>
+                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                      </p>
+                      <p>
+                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                      </p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ng-container>
+        </ion-slide>
 
-  <!-- Skeleton screen -->
-  <div *ngIf="session.speakers && !projectedSpeakers">
-    <ion-list>
-      <ion-item *ngFor="let speakerId of session.speakers">
-        <ion-avatar slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-avatar>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+        <ion-slide>
+          <h1>Mes notes</h1>
+          <!-- Textarea with custom number of rows and cols -->
+          <ion-item>
+            <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note" (ionChange)="updateNote($event)"></ion-textarea>
+          </ion-item>
+        </ion-slide>
 
+  </ion-slides>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button fill="outline" slot="end" (click)="showNotes()">Mes notes</ion-button>
+  </ion-toolbar>
+</ion-footer>
