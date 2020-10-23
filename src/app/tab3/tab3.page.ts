@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Presentateur } from '../shared/model/presentateur.model';
 import { PresentateurService } from '../webservices/presentateur.service';
 import { environment } from '../../environments/environment';
+import { ProfilPage } from './profil-modal/profil.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab3',
@@ -14,7 +16,7 @@ export class Tab3Page implements OnInit {
   apiUrl: string = environment.api.devfestimage.url + "/";
   presentateurs: Presentateur[];
 
-  constructor(private presentateurService: PresentateurService) {
+  constructor(private presentateurService: PresentateurService, public modalController: ModalController) {
   }
 
   ngOnInit(): void {
@@ -23,5 +25,15 @@ export class Tab3Page implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  async showProfil(presentateur: Presentateur) {
+    const modal = await this.modalController.create({
+      component: ProfilPage,
+      componentProps: {
+        presentateur
+      }
+    });
+    return await modal.present();
   }
 }
