@@ -4,6 +4,9 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Session} from '../shared/model/session.model';
 import {map} from 'rxjs/operators';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +33,24 @@ export class SessionService {
               tags: result[sessionId].tags || []
             });
           }
+          Storage.set({
+             key: 'sessions',
+             value: JSON.stringify(sessions)
+          });
           return sessions;
         })
     );
   }
+
+  getStoredSessions(): Observable<Session[]> {
+      return new Observable<Session[]>((subscriber) => {
+          Storage.get({key: 'sessions'}).then((result) => {
+              if (!result.value) { return subscriber.next([]); }
+              subscriber.next(JSON.parse(result.value));
+          }).catch((err) => {
+              subscriber.error(err);
+          });
+      });
+  }
+
 }

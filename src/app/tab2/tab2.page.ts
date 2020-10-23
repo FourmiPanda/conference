@@ -22,6 +22,11 @@ export class Tab2Page implements OnInit{
       this.sessions = sessions;
     }, (err) => {
       console.error(err);
+      this.sessionService.getStoredSessions().subscribe((sessions) => {
+        this.sessions = sessions;
+      }, (storedErr) => {
+        console.error(storedErr);
+      });
     });
   }
 
