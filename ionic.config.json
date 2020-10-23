@@ -1,0 +1,8 @@
+{
+  "name": "Conference",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "af404cb4"
+}
