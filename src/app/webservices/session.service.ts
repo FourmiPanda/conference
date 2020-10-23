@@ -25,7 +25,8 @@ export class SessionService {
               title: result[sessionId].title,
               titleMobile: result[sessionId].titleMobile,
               image: result[sessionId].image,
-              type: result[sessionId].type
+              type: result[sessionId].type,
+              tags: result[sessionId].tags || []
             });
           }
           return sessions;
