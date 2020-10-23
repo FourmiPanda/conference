@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Presentateur } from '../shared/model/presentateur.model';
 import { map } from 'rxjs/operators';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,15 @@ export class PresentateurService {
                         bio: result[presentateur].bio
                     });
                 }
+
+                Capacitor.Plugins.Storage.set({
+                    key: 'presentateurs',
+                    value: JSON.stringify(presentateurs)
+                }).then((done) => {
+                    return presentateurs;
+                }).catch((err) => {
+                    console.error(err)
+                })
                 return presentateurs;
             })
         );
