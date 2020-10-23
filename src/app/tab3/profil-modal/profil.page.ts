@@ -20,8 +20,6 @@ export class ProfilPage implements OnInit {
     constructor(private sessionService: SessionService, private modalController: ModalController) { }
 
     ngOnInit(): void {
-        // this.sessions = this.sessionService.getSessionsForASpeaker(105);
-
         this.sessionService.getStoredSessions().subscribe((sessions) => {
             this.sessions = sessions.filter((s) => s.speakers[0] === this.speaker.id);
         }, (err) => {
