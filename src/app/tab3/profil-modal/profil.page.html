@@ -1,0 +1,46 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title>Profil</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="closeProfil()">Close</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+
+    <ion-card>
+        <img [src]="speaker.photoUrl ?  apiUrl + speaker.photoUrl : 'assets/no-photos.svg'" />
+
+        <ion-card-header>
+            <ion-card-title> {{speaker.name}}</ion-card-title>
+            <ion-card-subtitle>
+
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content style="text-align: justify;">
+            {{speaker.bio}}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-list>
+        <ion-list-header>
+            <ion-label>
+                Sessions
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let session of sessions">
+            <ion-avatar slot="start">
+                <img [src]="session.image ? apiUrl + session.image : 'assets/no-photos.svg'" />
+            </ion-avatar>
+            <ion-label>
+                <h3>
+                    {{ session.title || session.titleMobile }}
+                </h3>
+                <p>
+                    {{ session.type }}
+                </p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+</ion-content>
