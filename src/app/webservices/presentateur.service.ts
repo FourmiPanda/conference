@@ -21,7 +21,6 @@ export class PresentateurService {
                 const speakers: speaker[] = [];
                 for (const speaker in result) {
                     if (!result.hasOwnProperty(speaker)) { continue; }
-                    console.log(result[speaker].photoUrl)
                     speakers.push({
                         id: result[speaker].id,
                         name: result[speaker].name,
