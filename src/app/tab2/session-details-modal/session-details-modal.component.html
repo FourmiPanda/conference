@@ -1,0 +1,79 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{session.titleMobile || session.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+
+  <ion-card>
+    <img [src]="apiUrl + session.image" />
+    <ion-card-header>
+      <ion-card-subtitle>
+        <ion-icon color="secondary" [name]="{
+        'break': 'cafe-outline',
+        '⚡️ Quickie': 'flash-outline',
+        '📣 Conference': 'megaphone-outline',
+        '💻 Codelab': 'flask-outline',
+        '📣 Keynote': 'mic-outline'
+      }[session.type] || 'easel-outline'"></ion-icon>
+      </ion-card-subtitle>
+      <ion-card-title> {{session.titleMobile}} </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{session.title}}
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="session.speakers && projectedSpeakers">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>
+          Présentateur
+        </ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let speaker of projectedSpeakers">
+        <ion-avatar slot="start">
+          <img [src]="apiUrl + speaker.photoUrl">
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            {{ speaker.name }}
+          </h3>
+          <p>
+            {{ speaker.company }}
+          </p>
+          <p>
+            {{ speaker.shortBio }}
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Skeleton screen -->
+  <div *ngIf="session.speakers && !projectedSpeakers">
+    <ion-list>
+      <ion-item *ngFor="let speakerId of session.speakers">
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+</ion-content>

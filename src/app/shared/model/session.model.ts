@@ -4,4 +4,6 @@ export interface Session {
     titleMobile: string;
     image: string;
     type: string;
+    tags: Array<string>;
+    speakers: Array<number>;
 }
