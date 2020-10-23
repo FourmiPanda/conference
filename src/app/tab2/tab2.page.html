@@ -12,6 +12,17 @@
       <ion-title size="large">Sessions</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <ion-item *ngFor="let session of sessions">
+      <ion-thumbnail slot="start">
+        <img [src]="session.image ? apiUrl + session.image : 'assets/no-photos.svg'">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ session.titleMobile }}</h2>
+        <p>{{ session.title }}</p>
+      </ion-label>
+      <ion-icon slot="end" [name]="({})[session.type]"></ion-icon>
+      <ion-button fill="outline" slot="end">View</ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: {
+    devfest: {
+      url: 'https://devfest-nantes-2018-api.cleverapps.io'
+    },
+    devfestimage: {
+      url: 'https://devfest2018.gdgnantes.com'
+    }
+  }
 };
 
 /*
