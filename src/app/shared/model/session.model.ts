@@ -5,4 +5,5 @@ export interface Session {
     image: string;
     type: string;
     tags: Array<string>;
+    speakers: Array<number>;
 }

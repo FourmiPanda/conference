@@ -26,6 +26,7 @@ export class SessionService {
               titleMobile: result[sessionId].titleMobile,
               image: result[sessionId].image,
               type: result[sessionId].type,
+              speakers: result[sessionId].speakers || [],
               tags: result[sessionId].tags || []
             });
           }
