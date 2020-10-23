@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Presentateur } from '../shared/model/presentateur.model';
+import { PresentateurService } from '../webservices/presentateur.service';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'presentateurs-component',
@@ -7,32 +10,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
     styleUrls: ['./presentateurs.component.css']
 })
 
-export class PresentateursComponent {
-    bookList = [
-        {
-            name: 'eXtreme Programming Explained'
-        },
-        {
-            name: 'Clean Code'
-        }
-    ];
+export class PresentateursComponent implements OnInit {
 
-    presentateurs: Object = {}
-    url = "https://devfest-nantes-2018-api.cleverapps.io/speakers"
+    apiUrl: string = environment.api.devfestimage.url;
+    presentateurs: Presentateur[];
 
-    constructor(private http: HttpClient) {
+    constructor(private presentateurService: PresentateurService) {
     }
 
-    getPresentateurs() {
-        this.presentateurs = this.http.get(this.url).subscribe(res => {
-            console.log(res);
+    ngOnInit(): void {
+        this.presentateurService.getPresentateurs().subscribe((presentateurs) => {
+            this.presentateurs = presentateurs;
+        }, (err) => {
+            console.log(err);
         });
     }
-}
-
-export interface PresentateursResponse {
-    items: {
-        id: string,
-        name: string
-    };
 }
