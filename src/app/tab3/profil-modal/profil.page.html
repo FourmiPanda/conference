@@ -22,53 +22,25 @@
         </ion-card-content>
     </ion-card>
 
-    <div *ngIf="session.speakers && projectedSpeakers">
-        <ion-list>
-            <ion-list-header>
-                <ion-label>
-                    Sessions
-                </ion-label>
-            </ion-list-header>
-            <ion-item *ngFor="let speaker of projectedSpeakers">
-                <ion-avatar slot="start">
-                    <img [src]="apiUrl + speaker.photoUrl" style="">
-                </ion-avatar>
-                <ion-label>
-                    <h3>
-                        {{ speaker.name }}
-                    </h3>
-                    <p>
-                        {{ speaker.company }}
-                    </p>
-                    <p>
-                        {{ speaker.shortBio }}
-                    </p>
-                </ion-label>
-            </ion-item>
-        </ion-list>
-    </div>
-
-    <!-- Skeleton screen -->
-    <div *ngIf="session.speakers && !projectedSpeakers">
-        <ion-list>
-            <ion-item *ngFor="let speakerId of session.speakers">
-                <ion-avatar slot="start">
-                    <ion-skeleton-text animated></ion-skeleton-text>
-                </ion-avatar>
-                <ion-label>
-                    <h3>
-                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                    </h3>
-                    <p>
-                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                    </p>
-                    <p>
-                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                    </p>
-                </ion-label>
-            </ion-item>
-        </ion-list>
-    </div>
-
+    <ion-list>
+        <ion-list-header>
+            <ion-label>
+                Sessions
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let session of sessions">
+            <ion-avatar slot="start">
+                <img [src]="apiUrl + session.image" />
+            </ion-avatar>
+            <ion-label>
+                <h3>
+                    {{ session.title || session.titleMobile }}
+                </h3>
+                <p>
+                    {{ session.type }}
+                </p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

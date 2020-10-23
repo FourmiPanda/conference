@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { speaker } from '../shared/model/presentateur.model';
 import { map } from 'rxjs/operators';
 import { Capacitor } from '@capacitor/core';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 @Injectable({
     providedIn: 'root'
@@ -44,5 +47,16 @@ export class PresentateurService {
                 return speakers;
             })
         );
+    }
+
+    getStoredSpeakers(): Observable<speaker[]> {
+        return new Observable<speaker[]>((subscriber) => {
+            Storage.get({ key: 'speaker' }).then((result) => {
+                if (!result.value) { return subscriber.next([]); }
+                subscriber.next(JSON.parse(result.value));
+            }).catch((err) => {
+                subscriber.error(err);
+            });
+        });
     }
 }

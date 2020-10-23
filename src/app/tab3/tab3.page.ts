@@ -23,7 +23,12 @@ export class Tab3Page implements OnInit {
     this.speakerService.getspeakers().subscribe((speakers) => {
       this.speakers = speakers;
     }, (err) => {
-      console.log(err);
+      console.error(err);
+      this.speakerService.getStoredSpeakers().subscribe((speakers) => {
+        this.speakers = speakers;
+      }, (storedErr) => {
+        console.error(storedErr);
+      });
     });
   }
 
