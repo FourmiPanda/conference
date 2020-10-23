@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Session} from '../../shared/model/session.model';
-import {ModalController} from '@ionic/angular';
+import {IonSlides, ModalController} from '@ionic/angular';
 import {environment} from '../../../environments/environment';
+import {NoteService} from '../../webservices/note.service';
 
 @Component({
   selector: 'app-session-details-modal',
@@ -12,7 +13,15 @@ export class SessionDetailsModalComponent implements OnInit {
 
   @Input() session: Session;
 
+  @ViewChild('slides', {static: true}) slides: IonSlides;
+
+
   apiUrl: string = environment.api.devfestimage.url;
+
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400
+  };
 
   projectedSpeakers = [{
     id: 101,
@@ -42,21 +51,30 @@ export class SessionDetailsModalComponent implements OnInit {
     ]
   }];
 
-  constructor(private modalCtrl: ModalController) { }
+  note: string;
+
+  constructor(private modalCtrl: ModalController, private noteService: NoteService) { }
 
   ngOnInit(): void {
+    this.noteService.get(this.session.id).subscribe((n) => {
+      this.note = n;
+    });
     this.session.speakers.forEach(() => {
       // TODO: Get speakers
     });
   }
 
   dismiss() {
-    console.log(this.session);
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
     this.modalCtrl.dismiss({
       dismissed: true
     });
   }
 
+  showNotes() {
+    this.slides.slideTo(1);
+  }
+
+  updateNote(event) {
+    this.noteService.set(this.session.id, event.target.value);
+  }
 }
