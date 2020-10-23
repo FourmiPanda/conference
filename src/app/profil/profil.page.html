@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-title>
+            Présentateurs
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Présentateurs</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-list>
+        <ion-item *ngFor="let presentateur of presentateurs">
+            <ion-thumbnail slot="start">
+                <img [src]="presentateur.photoUrl ? apiUrl + presentateur.photoUrl : 'assets/no-photos.svg'">
+            </ion-thumbnail>
+            <ion-label>
+                <h2>{{ presentateur.name }}</h2>
+                <p>{{ presentateur.company ? presentateur.company : "unknown" }} -
+                    {{ presentateur.country ? presentateur.country : "unknown" }}</p>
+            </ion-label>
+            <ion-button routerLink="/presentateur-profil" routerLinkActive="active" fill="outline" slot="end">Profil
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>
