@@ -20,6 +20,7 @@ export class PresentateurService {
                 const presentateurs: Presentateur[] = [];
                 for (const presentateur in result) {
                     if (!result.hasOwnProperty(presentateur)) { continue; }
+                    console.log(result[presentateur].photoUrl)
                     presentateurs.push({
                         id: result[presentateur].id,
                         name: result[presentateur].name,
