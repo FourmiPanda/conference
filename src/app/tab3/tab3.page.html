@@ -14,14 +14,14 @@
   </ion-header>
 
   <ion-list>
-    <ion-item *ngFor="let presentateur of presentateurs" (click)="showProfil(presentateur)">
+    <ion-item *ngFor="let speaker of speakers" (click)="showProfil(speaker)">
       <ion-thumbnail slot="start">
-        <img [src]="presentateur.photoUrl ? apiUrl + presentateur.photoUrl : 'assets/no-photos.svg'">
+        <img [src]="speaker.photoUrl ? apiUrl + speaker.photoUrl : 'assets/no-photos.svg'">
       </ion-thumbnail>
       <ion-label>
-        <h2>{{ presentateur.name }}</h2>
-        <p>{{ presentateur.company ? presentateur.company : "unknown" }} -
-          {{ presentateur.country ? presentateur.country : "unknown" }}</p>
+        <h2>{{ speaker.name }}</h2>
+        <p>{{ speaker.company ? speaker.company : "unknown" }} -
+          {{ speaker.country ? speaker.country : "unknown" }}</p>
       </ion-label>
       <ion-button fill="outline" slot="end">Profil
       </ion-button>

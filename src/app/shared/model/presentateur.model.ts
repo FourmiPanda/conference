@@ -1,4 +1,4 @@
-export interface Presentateur {
+export interface speaker {
     id: number;
     name: string;
     company: string;

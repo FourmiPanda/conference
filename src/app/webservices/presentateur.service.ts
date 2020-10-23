@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Presentateur } from '../shared/model/presentateur.model';
+import { speaker } from '../shared/model/presentateur.model';
 import { map } from 'rxjs/operators';
 import { Capacitor } from '@capacitor/core';
 
@@ -13,36 +13,36 @@ export class PresentateurService {
 
     constructor(private http: HttpClient) { }
 
-    getPresentateurs(): Observable<Presentateur[]> {
+    getspeakers(): Observable<speaker[]> {
         const url = `${environment.api.devfest.url}/speakers`;
 
         return this.http.get(url).pipe(
             map((result) => {
-                const presentateurs: Presentateur[] = [];
-                for (const presentateur in result) {
-                    if (!result.hasOwnProperty(presentateur)) { continue; }
-                    console.log(result[presentateur].photoUrl)
-                    presentateurs.push({
-                        id: result[presentateur].id,
-                        name: result[presentateur].name,
-                        company: result[presentateur].company,
-                        companyLogo: result[presentateur].companyLogo,
-                        country: result[presentateur].country,
-                        photoUrl: result[presentateur].photoUrl,
-                        shortBio: result[presentateur].shortBio,
-                        bio: result[presentateur].bio
+                const speakers: speaker[] = [];
+                for (const speaker in result) {
+                    if (!result.hasOwnProperty(speaker)) { continue; }
+                    console.log(result[speaker].photoUrl)
+                    speakers.push({
+                        id: result[speaker].id,
+                        name: result[speaker].name,
+                        company: result[speaker].company,
+                        companyLogo: result[speaker].companyLogo,
+                        country: result[speaker].country,
+                        photoUrl: result[speaker].photoUrl,
+                        shortBio: result[speaker].shortBio,
+                        bio: result[speaker].bio
                     });
                 }
 
                 Capacitor.Plugins.Storage.set({
-                    key: 'presentateurs',
-                    value: JSON.stringify(presentateurs)
+                    key: 'speakers',
+                    value: JSON.stringify(speakers)
                 }).then((done) => {
-                    return presentateurs;
+                    return speakers;
                 }).catch((err) => {
                     console.error(err)
                 })
-                return presentateurs;
+                return speakers;
             })
         );
     }

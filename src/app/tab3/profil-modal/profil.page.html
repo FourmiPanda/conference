@@ -2,22 +2,23 @@
     <ion-toolbar>
         <ion-title>Profil</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="dismiss()">Close</ion-button>
+            <ion-button (click)="closeProfil()">Close</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
 
     <ion-card>
-        <img [src]="apiUrl + presentateur.image" />
+        <img [src]="apiUrl + speaker.photoUrl" />
+
         <ion-card-header>
-            <ion-card-title> {{presentateur.name}}</ion-card-title>
+            <ion-card-title> {{speaker.name}}</ion-card-title>
             <ion-card-subtitle>
 
             </ion-card-subtitle>
         </ion-card-header>
-        <ion-card-content>
-            {{presentateur.bio}}
+        <ion-card-content style="text-align: justify;">
+            {{speaker.bio}}
         </ion-card-content>
     </ion-card>
 
@@ -30,7 +31,7 @@
             </ion-list-header>
             <ion-item *ngFor="let speaker of projectedSpeakers">
                 <ion-avatar slot="start">
-                    <img [src]="apiUrl + speaker.photoUrl">
+                    <img [src]="apiUrl + speaker.photoUrl" style="">
                 </ion-avatar>
                 <ion-label>
                     <h3>
