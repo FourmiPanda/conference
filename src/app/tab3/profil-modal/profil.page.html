@@ -9,7 +9,7 @@
 <ion-content fullscreen>
 
     <ion-card>
-        <img [src]="apiUrl + speaker.photoUrl" />
+        <img [src]="speaker.photoUrl ?  apiUrl + speaker.photoUrl : 'assets/no-photos.svg'" />
 
         <ion-card-header>
             <ion-card-title> {{speaker.name}}</ion-card-title>
@@ -30,7 +30,7 @@
         </ion-list-header>
         <ion-item *ngFor="let session of sessions">
             <ion-avatar slot="start">
-                <img [src]="apiUrl + session.image" />
+                <img [src]="session.image ? apiUrl + session.image : 'assets/no-photos.svg'" />
             </ion-avatar>
             <ion-label>
                 <h3>

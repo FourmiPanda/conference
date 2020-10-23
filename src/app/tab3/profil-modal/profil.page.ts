@@ -14,7 +14,7 @@ import { SessionService } from '../../webservices/session.service';
 export class ProfilPage implements OnInit {
 
     @Input() speaker: speaker;
-    apiUrl: string = environment.api.devfestimage.url;
+    apiUrl: string = environment.api.devfestimage.url + "/";
     sessions: Session[];
 
     constructor(private sessionService: SessionService, private modalController: ModalController) { }
