@@ -3,6 +3,9 @@ import {Session} from '../../shared/model/session.model';
 import {IonSlides, ModalController} from '@ionic/angular';
 import {environment} from '../../../environments/environment';
 import {NoteService} from '../../webservices/note.service';
+import {CameraResultType, Plugins} from '@capacitor/core';
+
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-session-details-modal',
@@ -77,4 +80,20 @@ export class SessionDetailsModalComponent implements OnInit {
   updateNote(event) {
     this.noteService.set(this.session.id, event.target.value);
   }
+
+  takePicture() {
+    Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    }).then((cameraPhoto) => {
+      console.log(cameraPhoto);
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+    pickPhoto() {
+
+    }
 }
