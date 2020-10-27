@@ -59,4 +59,29 @@ export class PresentateurService {
             });
         });
     }
+
+    getSpeakerById(idspeaker: number): Observable<speaker> {
+        const url = `${environment.api.devfest.url}/speakers`;
+        return this.http.get(url).pipe(
+            map((result) => {
+                let s = null;
+                for (const speaker in result) {
+                    if (!result.hasOwnProperty(speaker)) { continue; }
+                    if (speaker === idspeaker.toString()) {
+                        s = {
+                            id: result[speaker].id,
+                            name: result[speaker].name,
+                            company: result[speaker].company,
+                            companyLogo: result[speaker].companyLogo,
+                            country: result[speaker].country,
+                            photoUrl: result[speaker].photoUrl,
+                            shortBio: result[speaker].shortBio,
+                            bio: result[speaker].bio
+                        }
+                    }
+                }
+                return s;
+            })
+        );
+    }
 }
