@@ -5,15 +5,9 @@ import {environment} from '../../../environments/environment';
 import {NoteService} from '../../webservices/note.service';
 import {CameraResultType, CameraSource, Plugins} from '@capacitor/core';
 import {PhotoService} from '../../webservices/photo.service';
+import {PresentateurService} from '../../webservices/presentateur.service';
 
 const { Camera } = Plugins;
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Session } from '../../shared/model/session.model';
-import { IonSlides, ModalController } from '@ionic/angular';
-import { environment } from '../../../environments/environment';
-import { NoteService } from '../../webservices/note.service';
-import { PresentateurService } from 'src/app/webservices/presentateur.service';
-import { speaker } from 'src/app/shared/model/presentateur.model';
 
 @Component({
   selector: 'app-session-details-modal',
@@ -36,7 +30,7 @@ export class SessionDetailsModalComponent implements OnInit {
 
   note: string;
 
-  projectedSpeakers: Object[] = [];
+  projectedSpeakers: any[] = [];
 
   photo: string;
 
@@ -50,6 +44,7 @@ export class SessionDetailsModalComponent implements OnInit {
     this.session.speakers.forEach((speaker) => {
       this.presentateurservice.getSpeakerById(speaker).subscribe((s) => {
         this.projectedSpeakers.push(s);
+        console.log(s);
       });
     });
     this.photoService.get(this.session.id).subscribe((res) => {

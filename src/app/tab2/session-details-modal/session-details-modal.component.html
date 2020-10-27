@@ -29,7 +29,7 @@
           </ion-list-header>
           <ion-item *ngFor="let speaker of projectedSpeakers">
             <ion-avatar slot="start">
-              <img [src]="apiUrl + speaker.photoUrl">
+              <img [src]="apiUrl + '/' + speaker.photoUrl">
             </ion-avatar>
             <ion-label>
               <h3>
@@ -83,7 +83,7 @@
 
 
           <ion-card *ngIf="photo">
-            <img style="200px" [src]="photo | safe: 'resourceUrl'" />
+            <img style="height: 200px" [src]="photo | safe: 'resourceUrl'" />
           </ion-card>
 
           <ion-fab horizontal="end" vertical="bottom" slot="fixed">
