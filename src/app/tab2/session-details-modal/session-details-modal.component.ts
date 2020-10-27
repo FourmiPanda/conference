@@ -1,8 +1,10 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Session} from '../../shared/model/session.model';
-import {IonSlides, ModalController} from '@ionic/angular';
-import {environment} from '../../../environments/environment';
-import {NoteService} from '../../webservices/note.service';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Session } from '../../shared/model/session.model';
+import { IonSlides, ModalController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
+import { NoteService } from '../../webservices/note.service';
+import { PresentateurService } from 'src/app/webservices/presentateur.service';
+import { speaker } from 'src/app/shared/model/presentateur.model';
 
 @Component({
   selector: 'app-session-details-modal',
@@ -13,54 +15,30 @@ export class SessionDetailsModalComponent implements OnInit {
 
   @Input() session: Session;
 
-  @ViewChild('slides', {static: true}) slides: IonSlides;
+  @ViewChild('slides', { static: true }) slides: IonSlides;
 
 
-  apiUrl: string = environment.api.devfestimage.url;
+  apiUrl: string = environment.api.devfestimage.url + "/";
 
   slideOpts = {
     initialSlide: 0,
     speed: 400
   };
 
-  projectedSpeakers = [{
-    id: 101,
-    name: 'Charlie GERARD',
-    featured: true,
-    company: 'ThoughtWorks',
-    companyLogo: '/images/logos/thoughtworks.png',
-    country: 'Australia',
-    photoUrl: '/images/speakers/charlie-gerard.png',
-    shortBio: 'Hey I’m Charlie, currently Software Developer @ ThoughtWorks in Sydney. I am passionate about Creative Technologies, Creative Coding, Hardware and IoT.',
-    bio: 'Hey I’m Charlie, currently Software Developer @ ThoughtWorks in Sydney. I am passionate about Creative Technologies, Creative Coding, Hardware and IoT. When I’m not coding for a client’s project, I am mentoring at General Assembly, building projects using Arduino and other devices, writing tutorials to share what I learn or reading news. You can also check my [portfolio](http://charliegerard.github.io) if you’d like to know more about me :).',
-    tags: [
-      'IoT'
-    ],
-    badges: [],
-    socials: [
-      {
-        icon: 'twitter',
-        name: 'Twitter',
-        link: 'https://twitter.com/devdevcharlie'
-      },
-      {
-        icon: 'github',
-        name: 'Github',
-        link: 'https://github.com/charliegerard'
-      }
-    ]
-  }];
-
   note: string;
 
-  constructor(private modalCtrl: ModalController, private noteService: NoteService) { }
+  projectedSpeakers: Object[] = [];
+
+  constructor(private modalCtrl: ModalController, private noteService: NoteService, private presentateurservice: PresentateurService) { }
 
   ngOnInit(): void {
     this.noteService.get(this.session.id).subscribe((n) => {
       this.note = n;
     });
-    this.session.speakers.forEach(() => {
-      // TODO: Get speakers
+    this.session.speakers.forEach((speaker) => {
+      this.presentateurservice.getSpeakerById(speaker).subscribe((s) => {
+        this.projectedSpeakers.push(s);
+      });
     });
   }
 

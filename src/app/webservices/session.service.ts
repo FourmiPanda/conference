@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Session } from '../shared/model/session.model';
 import { map } from 'rxjs/operators';
 import { Plugins } from '@capacitor/core';
+import { speaker } from '../shared/model/presentateur.model';
 
 const { Storage } = Plugins;
 
@@ -67,5 +68,4 @@ export class SessionService {
     });
     return [];
   }
-
 }

@@ -8,79 +8,80 @@
 </ion-header>
 <ion-content fullscreen>
   <ion-slides #slides>
-        <ion-slide>
-            <img [src]="apiUrl + session.image" />
+    <ion-slide>
+      <img [src]="apiUrl + session.image" />
 
-                <ion-icon color="secondary" [name]="{
+      <ion-icon color="secondary" [name]="{
             'break': 'cafe-outline',
             '⚡️ Quickie': 'flash-outline',
             '📣 Conference': 'megaphone-outline',
             '💻 Codelab': 'flask-outline',
             '📣 Keynote': 'mic-outline'
           }[session.type] || 'easel-outline'"></ion-icon>
-          {{session.titleMobile}}
-              <p>{{session.title}}</p>
-              <ng-container *ngIf="session.speakers && projectedSpeakers">
-                <ion-list>
-                  <ion-list-header>
-                    <ion-label>
-                      Présentateur
-                    </ion-label>
-                  </ion-list-header>
-                  <ion-item *ngFor="let speaker of projectedSpeakers">
-                    <ion-avatar slot="start">
-                      <img [src]="apiUrl + speaker.photoUrl">
-                    </ion-avatar>
-                    <ion-label>
-                      <h3>
-                        {{ speaker.name }}
-                      </h3>
-                      <p>
-                        {{ speaker.company }}
-                      </p>
-                      <p>
-                        {{ speaker.shortBio }}
-                      </p>
-                    </ion-label>
-                  </ion-item>
-                </ion-list>
-              </ng-container>
-
-              <!-- Skeleton screen -->
-              <ng-container *ngIf="session.speakers && !projectedSpeakers">
-                <ion-list>
-                  <ion-list-header>
-                    <ion-label>
-                      Présentateur
-                    </ion-label>
-                  </ion-list-header>
-                  <ion-item *ngFor="let speakerId of session.speakers">
-                    <ion-avatar slot="start">
-                      <ion-skeleton-text animated></ion-skeleton-text>
-                    </ion-avatar>
-                    <ion-label>
-                      <h3>
-                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                      </h3>
-                      <p>
-                        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                      </p>
-                      <p>
-                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                      </p>
-                    </ion-label>
-                  </ion-item>
-                </ion-list>
-              </ng-container>
-        </ion-slide>
-
-        <ion-slide>
-          <h1>Mes notes</h1>
-          <!-- Textarea with custom number of rows and cols -->
-          <ion-item>
-            <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note" (ionChange)="updateNote($event)"></ion-textarea>
+      {{session.titleMobile}}
+      <p>{{session.title}}</p>
+      <ng-container *ngIf="session.speakers && projectedSpeakers">
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Présentateur(s)
+            </ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let speaker of projectedSpeakers">
+            <ion-avatar slot="start">
+              <img [src]="apiUrl + speaker.photoUrl">
+            </ion-avatar>
+            <ion-label>
+              <h3>
+                {{ speaker.name }}
+              </h3>
+              <h3>
+                {{ speaker.company }}
+              </h3>
+              <h5 style="color:gray">
+                {{ speaker.shortBio }}
+              </h5>
+            </ion-label>
           </ion-item>
-        </ion-slide>
+        </ion-list>
+      </ng-container>
+
+      <!-- Skeleton screen -->
+      <ng-container *ngIf="session.speakers && !projectedSpeakers">
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Présentateur
+            </ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let speakerId of session.speakers">
+            <ion-avatar slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-avatar>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ng-container>
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Mes notes</h1>
+      <!-- Textarea with custom number of rows and cols -->
+      <ion-item>
+        <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note"
+          (ionChange)="updateNote($event)"></ion-textarea>
+      </ion-item>
+    </ion-slide>
 
   </ion-slides>
 
