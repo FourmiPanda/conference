@@ -81,6 +81,11 @@
             <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note" (ionChange)="updateNote($event)"></ion-textarea>
           </ion-item>
 
+
+          <ion-card *ngIf="photo">
+            <img style="200px" [src]="photo | safe: 'resourceUrl'" />
+          </ion-card>
+
           <ion-fab horizontal="end" vertical="bottom" slot="fixed">
             <ion-fab-button color="primary">
               <ion-icon name="add"></ion-icon>
@@ -94,7 +99,6 @@
               </ion-fab-button>
             </ion-fab-list>
           </ion-fab>
-
         </ion-slide>
 
   </ion-slides>

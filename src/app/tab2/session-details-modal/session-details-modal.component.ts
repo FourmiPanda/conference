@@ -1,9 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Session} from '../../shared/model/session.model';
-import {IonSlides, ModalController} from '@ionic/angular';
+import {IonSlides, ModalController, ToastController} from '@ionic/angular';
 import {environment} from '../../../environments/environment';
 import {NoteService} from '../../webservices/note.service';
-import {CameraResultType, Plugins} from '@capacitor/core';
+import {CameraResultType, CameraSource, Plugins} from '@capacitor/core';
+import {PhotoService} from '../../webservices/photo.service';
 
 const { Camera } = Plugins;
 
@@ -56,7 +57,10 @@ export class SessionDetailsModalComponent implements OnInit {
 
   note: string;
 
-  constructor(private modalCtrl: ModalController, private noteService: NoteService) { }
+  photo: string;
+
+  constructor(private modalCtrl: ModalController, private noteService: NoteService, private photoService: PhotoService,
+              public toastController: ToastController) { }
 
   ngOnInit(): void {
     this.noteService.get(this.session.id).subscribe((n) => {
@@ -64,6 +68,10 @@ export class SessionDetailsModalComponent implements OnInit {
     });
     this.session.speakers.forEach(() => {
       // TODO: Get speakers
+    });
+    this.photoService.get(this.session.id).subscribe((res) => {
+      if (!res) { return; }
+      this.photo = res;
     });
   }
 
@@ -85,15 +93,42 @@ export class SessionDetailsModalComponent implements OnInit {
     Camera.getPhoto({
       quality: 90,
       allowEditing: true,
-      resultType: CameraResultType.Uri
+      saveToGallery: false,
+      source: CameraSource.Camera,
+      resultType: CameraResultType.DataUrl
     }).then((cameraPhoto) => {
-      console.log(cameraPhoto);
+      this.photoService.set(this.session.id, cameraPhoto.dataUrl, () => {
+        this.presentToast('Picture stored !');
+        this.photo = cameraPhoto.dataUrl;
+      });
     }).catch((err) => {
       console.error(err);
     });
   }
 
     pickPhoto() {
-
+      Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        saveToGallery: false,
+        source: CameraSource.Photos,
+        resultType: CameraResultType.DataUrl
+      }).then((cameraPhoto) => {
+        this.photoService.set(this.session.id, cameraPhoto.dataUrl, () => {
+          this.presentToast('Picture stored !');
+          this.photo = cameraPhoto.dataUrl;
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
     }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    await toast.present();
+  }
+
 }

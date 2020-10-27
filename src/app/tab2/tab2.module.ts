@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import {SessionDetailsModalComponent} from './session-details-modal/session-details-modal.component';
+import {SafePipe} from '../shared/pipe/safe.pipe';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {SessionDetailsModalComponent} from './session-details-modal/session-deta
     ExploreContainerComponentModule,
     Tab2PageRoutingModule
   ],
-  declarations: [Tab2Page, SessionDetailsModalComponent]
+    declarations: [Tab2Page, SessionDetailsModalComponent, SafePipe]
 })
 export class Tab2PageModule {}
