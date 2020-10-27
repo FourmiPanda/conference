@@ -1,3 +1,12 @@
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Session} from '../../shared/model/session.model';
+import {IonSlides, ModalController, ToastController} from '@ionic/angular';
+import {environment} from '../../../environments/environment';
+import {NoteService} from '../../webservices/note.service';
+import {CameraResultType, CameraSource, Plugins} from '@capacitor/core';
+import {PhotoService} from '../../webservices/photo.service';
+
+const { Camera } = Plugins;
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Session } from '../../shared/model/session.model';
 import { IonSlides, ModalController } from '@ionic/angular';
@@ -18,7 +27,7 @@ export class SessionDetailsModalComponent implements OnInit {
   @ViewChild('slides', { static: true }) slides: IonSlides;
 
 
-  apiUrl: string = environment.api.devfestimage.url + "/";
+  apiUrl: string = environment.api.devfestimage.url;
 
   slideOpts = {
     initialSlide: 0,
@@ -29,7 +38,10 @@ export class SessionDetailsModalComponent implements OnInit {
 
   projectedSpeakers: Object[] = [];
 
-  constructor(private modalCtrl: ModalController, private noteService: NoteService, private presentateurservice: PresentateurService) { }
+  photo: string;
+
+  constructor(private modalCtrl: ModalController, private noteService: NoteService, private photoService: PhotoService,
+              public toastController: ToastController, private presentateurservice: PresentateurService) { }
 
   ngOnInit(): void {
     this.noteService.get(this.session.id).subscribe((n) => {
@@ -39,6 +51,10 @@ export class SessionDetailsModalComponent implements OnInit {
       this.presentateurservice.getSpeakerById(speaker).subscribe((s) => {
         this.projectedSpeakers.push(s);
       });
+    });
+    this.photoService.get(this.session.id).subscribe((res) => {
+      if (!res) { return; }
+      this.photo = res;
     });
   }
 
@@ -55,4 +71,47 @@ export class SessionDetailsModalComponent implements OnInit {
   updateNote(event) {
     this.noteService.set(this.session.id, event.target.value);
   }
+
+  takePicture() {
+    Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      saveToGallery: false,
+      source: CameraSource.Camera,
+      resultType: CameraResultType.DataUrl
+    }).then((cameraPhoto) => {
+      this.photoService.set(this.session.id, cameraPhoto.dataUrl, () => {
+        this.presentToast('Picture stored !');
+        this.photo = cameraPhoto.dataUrl;
+      });
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+    pickPhoto() {
+      Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        saveToGallery: false,
+        source: CameraSource.Photos,
+        resultType: CameraResultType.DataUrl
+      }).then((cameraPhoto) => {
+        this.photoService.set(this.session.id, cameraPhoto.dataUrl, () => {
+          this.presentToast('Picture stored !');
+          this.photo = cameraPhoto.dataUrl;
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    await toast.present();
+  }
+
 }

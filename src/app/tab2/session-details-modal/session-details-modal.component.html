@@ -74,16 +74,35 @@
       </ng-container>
     </ion-slide>
 
-    <ion-slide>
-      <h1>Mes notes</h1>
-      <!-- Textarea with custom number of rows and cols -->
-      <ion-item>
-        <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note"
-          (ionChange)="updateNote($event)"></ion-textarea>
-      </ion-item>
-    </ion-slide>
+        <ion-slide>
+          <h1>Mes notes</h1>
+          <!-- Textarea with custom number of rows and cols -->
+          <ion-item>
+            <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..." [value]="note" (ionChange)="updateNote($event)"></ion-textarea>
+          </ion-item>
+
+
+          <ion-card *ngIf="photo">
+            <img style="200px" [src]="photo | safe: 'resourceUrl'" />
+          </ion-card>
+
+          <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+            <ion-fab-button color="primary">
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="start">
+              <ion-fab-button color="light" (click)="takePicture()">
+                <ion-icon name="camera-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="light" (click)="pickPhoto()">
+                <ion-icon name="image-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+        </ion-slide>
 
   </ion-slides>
+
 
 </ion-content>
 
